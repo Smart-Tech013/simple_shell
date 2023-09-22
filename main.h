@@ -14,5 +14,6 @@
 int process();
 int shellstructure();
 void commands(const char *input);
+void command_args(const char *input);
 
 #endif
