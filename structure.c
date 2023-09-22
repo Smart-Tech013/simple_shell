@@ -8,7 +8,7 @@ int shellstructure()
 
 	while(1)
 	{
-		printf("myshell> ");
+		printf("cisfun$> ");
 
 		if (fgets(userInput, sizeof(userInput), stdin) == NULL)
 		{
@@ -18,13 +18,14 @@ int shellstructure()
 
 		userInput[strcspn(userInput, "\n")] = '\0';
 
-		commands(userInput);
 
 		//exiting the shell
-		if (strcmp (userInput, "exit") == 0)
+		if (strcmp(userInput, "exit") == 0)
 		{
-			exit(EXIT_FAILURE);
+			exit(EXIT_SUCCESS);
 		}
+
+		commands(userInput);
 	}
 
 	return (0);
@@ -52,12 +53,13 @@ void commands(const char *input)
 	else if (pid == 0)
 	{
 		char *argv[] = {(char *)input, NULL};
-		char *envp[] = {NULL};
+		char *env[] = {NULL};
 
-		execve(input, argv, envp);
-
-		perror("command not found");
-		exit(EXIT_FAILURE);
+		if (execve(input, argv, env) == -1)
+		{
+			perror("command not found");
+			exit(EXIT_FAILURE);
+		}
 	}
 	else 
 	{
@@ -68,4 +70,4 @@ void commands(const char *input)
 		}
 	}
 
-}
+} 
